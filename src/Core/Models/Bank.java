@@ -3,7 +3,6 @@ package Core.Models;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import BankService.DummyBank;
 import BankService.IBankService;
 
 public class Bank {

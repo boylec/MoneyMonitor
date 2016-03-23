@@ -1,6 +1,7 @@
 package BankService;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Random;
@@ -8,36 +9,28 @@ import java.util.UUID;
 
 import Core.Models.Account;
 import Core.Models.Transaction;
+import UserDummyDatabase.InitialData;
+import UserDummyDatabase.UserContext;
 
 public class DummyBank implements IBankService{
 	private static String bankName = "Bank of America";
 	private static String acceptableUsername = "testUser";
 	private static String acceptablePassword = "testPassword";
-	private static ArrayList<String> potentialSources = new ArrayList<String>(){{
-		add("Mcdonalds");
-		add("Shell Gas Station");
-		add("Macy's");
-		add("ATM Fee");
-		add("Nebraska Furniture Mart");
-		add("Burger King");
-		add("Gamespot.com");
-		add("Amazon.com");
-		add("Kroger");
-		add("Tom Thumb");
-		add("University of Texas");
-	}};
+
 	private static UUID authorizedToken = null;
+	@SuppressWarnings("serial")
 	private static ArrayList<Transaction> transactions = new ArrayList<Transaction>(){{
 		Random generator = new Random();
-		int numberOfPotentialSources = potentialSources.size();
+		int numberOfPotentialSources = InitialData.potentialSources.size();
 		//Generate 100 random transactions
 		for(int x = 0; x < 100; x++)
 		{
 			//Randomized transaction
-			add(new Transaction(true,generator.nextDouble() * 100.0,potentialSources.get(generator.nextInt(numberOfPotentialSources-1)), GenerateRandomDate(2016,2016)));
+			add(new Transaction(true,generator.nextDouble() * 100.0,InitialData.potentialSources.get(generator.nextInt(numberOfPotentialSources-1)), GenerateRandomDate(2016,2016),x));
 		}
 	}};
 	
+	@SuppressWarnings("serial")
 	private static ArrayList<Account> accounts = new ArrayList<Account>()
 			{{
 				add(new Account("Test Account","12341234",transactions));
@@ -72,11 +65,11 @@ public class DummyBank implements IBankService{
 
         int year = randBetween(minYear, maxYear);
 
-        gc.set(gc.YEAR, year);
+        gc.set(Calendar.YEAR, year);
 
-        int dayOfYear = randBetween(1, gc.getActualMaximum(gc.DAY_OF_YEAR));
+        int dayOfYear = randBetween(1, gc.getActualMaximum(Calendar.DAY_OF_YEAR));
 
-        gc.set(gc.DAY_OF_YEAR, dayOfYear);
+        gc.set(Calendar.DAY_OF_YEAR, dayOfYear);
 
         return gc.getTime();
     }

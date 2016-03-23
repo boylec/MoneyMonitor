@@ -3,13 +3,15 @@ package Core.Models;
 import java.util.Date;
 
 public class Transaction {
+	private int _transactionId = 0;
 	private boolean _isExpense = true;
 	private double _amount = 0;
 	private String _source = "";
 	private Date _dateOfTransaction = new Date();
 	
-	public Transaction(boolean isExpense, double amount, String source, Date date)
+	public Transaction(boolean isExpense, double amount, String source, Date date, int transId)
 	{
+		set_transactionId(transId);
 		set_isExpense(isExpense);
 		set_amount(amount);
 		set_source(source);
@@ -46,5 +48,13 @@ public class Transaction {
 
 	public void set_dateOfTransaction(Date _dateOfTransaction) {
 		this._dateOfTransaction = _dateOfTransaction;
+	}
+
+	public int get_transactionId() {
+		return _transactionId;
+	}
+
+	public void set_transactionId(int _transactionId) {
+		this._transactionId = _transactionId;
 	}
 }
