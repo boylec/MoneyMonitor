@@ -1,0 +1,21 @@
+header {
+    text-align: center;
+    font-size: 22px;
+}
+
+h1 {
+    font-size: 18px;
+}
+
+footer {
+    text-align: center;
+}
+
+.mmTableHolder {
+    background-color: beige;
+    border-radius: 5px;
+}
+
+.mmTable {
+    background-color: white;
+}

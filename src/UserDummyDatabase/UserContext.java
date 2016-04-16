@@ -3,12 +3,13 @@ package UserDummyDatabase;
 import java.util.ArrayList;
 
 import Core.Models.Category;
-import Core.Models.CategoryListing;
+import Core.Services.CategoryListing;
+import Core.Services.TransactionCategoryOverrider;
 
 public class UserContext {
 	public UserContext()
 	{
-		TransactionCategoryOverrider = new Core.Models.TransactionCategoryOverrider();
+		TransactionCategoryOverrider = new Core.Services.TransactionCategoryOverrider();
 		CategoryAssociations = new CategoryListing();
 		
 		for(Category cat : userCategories)
@@ -61,5 +62,5 @@ public class UserContext {
 	public ArrayList<Category> userCategories = InitialData.userCategories;
 	public ArrayList<String> potentialSources  = InitialData.potentialSources;
 	public CategoryListing CategoryAssociations;
-	public Core.Models.TransactionCategoryOverrider TransactionCategoryOverrider;
+	public TransactionCategoryOverrider TransactionCategoryOverrider;
 }

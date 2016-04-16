@@ -1,5 +1,6 @@
 package Core.Models;
 
+import java.util.Comparator;
 import java.util.Date;
 
 public class Transaction {
@@ -57,4 +58,8 @@ public class Transaction {
 	public void set_transactionId(int _transactionId) {
 		this._transactionId = _transactionId;
 	}
+	
+	
 }
+
+

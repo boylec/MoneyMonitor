@@ -10,7 +10,6 @@ import java.util.UUID;
 import Core.Models.Account;
 import Core.Models.Transaction;
 import UserDummyDatabase.InitialData;
-import UserDummyDatabase.UserContext;
 
 public class DummyBank implements IBankService{
 	private static String bankName = "Bank of America";

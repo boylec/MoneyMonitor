@@ -9,6 +9,9 @@ import Core.Models.Bank;
 import Core.Models.Category;
 import Core.Models.CredentialSet;
 import Core.Models.Transaction;
+import Core.Services.ReportBuilder;
+import Core.Services.ReportService;
+import Reporting.Models.HtmlDocument;
 import UserDummyDatabase.UserContext;
 
 public class Program {
@@ -24,13 +27,15 @@ public class Program {
 	private static Transaction selectedTransaction = null;
 	private static ArrayList<Category> categoryFilters = new ArrayList<Category>();
 	private static UserContext UserContext = new UserContext();
+	private static ReportService reportService = new ReportService();
+	private static ReportBuilder reportBuilder = new ReportBuilder();
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		System.out.println();
 		PrintMenu();
 	}
 	
-	private static void PrintMenu()
+	private static void PrintMenu() throws Exception
 	{
 		
 		boolean exitChosen = false;
@@ -163,8 +168,9 @@ public class Program {
 					System.out.println("1.Print Transactions");
 					System.out.println("2.Add/Remove Category Filters");
 					System.out.println("3.Edit Specific Transaction");
-					System.out.println("4.Back to Account Select");
-					System.out.println("5.Exit");
+					System.out.println("4.Export report with selected filters");
+					System.out.println("5.Back to Account Select");
+					System.out.println("6.Exit");
 				    choice = _scanner.nextInt();
 				    _scanner.nextLine();
 				    
@@ -181,10 +187,46 @@ public class Program {
 					    	menuState = MenuState.EditTransaction;
 					    	break;
 					    case 4:
+					    	System.out.println("How would you like to sort the reported transactoins?");
+					    	System.out.println("1.Date");
+					    	System.out.println("2.Amount");
+					    	System.out.println("3.Category");
+					    	System.out.println("4.Transaction Source");
+					    	Integer sortSelect = _scanner.nextInt();
+					    	_scanner.nextLine();
+					    	ReportBuilder.SortingType sortType = ReportBuilder.SortingType.Amount;
+					    	switch(sortSelect)
+					    	{
+					    	case 1:
+					    		sortType = ReportBuilder.SortingType.Date;
+					    		break;
+					    	case 2:
+					    		sortType = ReportBuilder.SortingType.Amount;
+					    		break;
+					    	case 3:
+					    		sortType = ReportBuilder.SortingType.Category;
+					    		break;
+				    		case 4:
+				    			sortType = ReportBuilder.SortingType.Source;
+				    			break;
+				    		default:
+				    			break;
+					    	}
+					    	System.out.println("What would you like to title the report? ");
+					    	String reportTitle = _scanner.nextLine();
+					    	System.out.println("What filename would you like to use? (include .html extension)");
+					    	String reportFileName = _scanner.nextLine();
+					    	ArrayList<Transaction> filteredTrans = UserContext.CategoryAssociations.FilterTransactions(selectedAccount.GetTransactions(), categoryFilters);
+					    	ArrayList<Category> catsToPassIn = categoryFilters.size() == 0 ? UserContext.userCategories : categoryFilters;
+					    	System.out.println("");
+					    	HtmlDocument doc = reportBuilder.BuildReport(UserContext.CategoryAssociations, selectedAccount.GetTransactions(), catsToPassIn, sortType, reportTitle);
+					    	reportService.ExportHtmlToHtmlFile(doc, reportFileName);
+					    	break;
+					    case 5:
 					    	selectedAccount = null;
 					    	menuState = MenuState.Connected;
 					    	break;
-					    case 5:
+					    case 6:
 					    	exitChosen = true;
 					    	break;
 					    default:
